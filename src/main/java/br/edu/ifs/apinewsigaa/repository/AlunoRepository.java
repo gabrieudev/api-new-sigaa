@@ -41,9 +41,9 @@ public interface AlunoRepository extends JpaRepository<AlunoModel, Integer> {
                     SELECT a.*
                         FROM aluno a
                         JOIN matricula m
-                            ON m.idAluno = a.id
+                            ON m.id_Aluno = a.id
                         JOIN turma t
-                            ON t.idDisciplina = :p1;
+                            ON t.id_Disciplina = :p1
                     """,
             nativeQuery = true
     )
@@ -57,10 +57,10 @@ public interface AlunoRepository extends JpaRepository<AlunoModel, Integer> {
                     SELECT a.*
                         FROM aluno a
                         JOIN matricula m
-                            ON m.idAluno = a.id
+                            ON m.id_Aluno = a.id
                         JOIN turma t
-                            ON t.idDisciplina = m.idDisciplina AND t.idProfessor = :p1
-                        WHERE t.dataFim > :p2;
+                            ON t.id_Disciplina = m.id_Disciplina AND t.id_Professor = :p1
+                        WHERE t.data_Fim > :p2
                     """,
             nativeQuery = true
     )

@@ -19,7 +19,7 @@ public interface ProfessorRepository extends JpaRepository<ProfessorModel, Integ
                     SELECT p.*
                         FROM professor p
                         JOIN turma t
-                            ON t.idProfessor = p.id AND t.idDisciplina = :p1;
+                            ON t.id_Professor = p.id AND t.id_Disciplina = :p1
                     """,
             nativeQuery = true
     )

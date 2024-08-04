@@ -17,10 +17,10 @@ public interface DisciplinaRepository extends JpaRepository<DisciplinaModel, Int
                     SELECT d.*
                         FROM disciplina d
                         JOIN turma t
-                            ON t.idDisciplina = d.id
+                            ON t.id_Disciplina = d.id
                         JOIN matricula m
-                            ON m.idTurma = t.id AND m.idAluno = :p1
-                        WHERE t.dataFim > :p2;
+                            ON m.id_Turma = t.id AND m.id_Aluno = :p1
+                        WHERE t.data_Fim > :p2
                     """,
             nativeQuery = true
     )
@@ -35,9 +35,9 @@ public interface DisciplinaRepository extends JpaRepository<DisciplinaModel, Int
                     SELECT d.*
                         FROM disciplina d
                         JOIN turma t
-                            ON t.idDisciplina = d.id
+                            ON t.id_Disciplina = d.id
                         JOIN matricula m
-                            ON m.idTurma = t.id AND m.idAluno = :p1
+                            ON m.id_Turma = t.id AND m.id_Aluno = :p1
                     """,
             nativeQuery = true
     )
@@ -51,8 +51,8 @@ public interface DisciplinaRepository extends JpaRepository<DisciplinaModel, Int
                     SELECT d.*
                         FROM disciplina d
                         JOIN turma t
-                            ON t.idDisciplina = d.id AND t.idProfessor = :p1
-                        WHERE t.dataFim > :p2;
+                            ON t.id_Disciplina = d.id AND t.id_Professor = :p1
+                        WHERE t.data_Fim > :p2
                     """,
             nativeQuery = true
     )
@@ -67,7 +67,7 @@ public interface DisciplinaRepository extends JpaRepository<DisciplinaModel, Int
                     SELECT d.*
                         FROM disciplina d
                         JOIN turma t
-                            ON t.idDisciplina = d.id AND t.idProfessor = :p1;
+                            ON t.id_Disciplina = d.id AND t.id_Professor = :p1
                     """,
             nativeQuery = true
     )
