@@ -6,11 +6,14 @@ import br.edu.ifs.apinewsigaa.model.AlunoModel;
 import br.edu.ifs.apinewsigaa.repository.AlunoRepository;
 import br.edu.ifs.apinewsigaa.rest.dto.AlunoDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -60,4 +63,25 @@ public class AlunoService {
             throw new DataIntegrityException("Erro ao deletar um aluno.");
         }
     }
+
+    @Transactional(readOnly = true)
+    public Page<AlunoDto> obterAlunosPorDisciplina(int idDisciplina, Pageable pageable) {
+        try {
+            return alunoRepository.obterAlunosPorDisciplina(idDisciplina, pageable)
+                    .map(AlunoModel::toDTO);
+        } catch (DataIntegrityException e){
+            throw new DataIntegrityException("Erro ao obter os alunos.");
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public Page<AlunoDto> obterAlunosLecionadosAtualmentePorProfessor(int idProfessor, Pageable pageable) {
+        try {
+            return alunoRepository.obterAlunosLecionadosAtualmentePorProfessor(idProfessor, Date.from(Instant.now()), pageable)
+                    .map(AlunoModel::toDTO);
+        } catch (DataIntegrityException e){
+            throw new DataIntegrityException("Erro ao obter os alunos.");
+        }
+    }
+
 }

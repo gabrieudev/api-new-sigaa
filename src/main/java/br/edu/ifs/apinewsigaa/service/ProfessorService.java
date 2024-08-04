@@ -63,4 +63,14 @@ public class ProfessorService {
         }
     }
 
+    @Transactional(readOnly = true)
+    public Page<ProfessorDto> obterProfessoresPorDisciplina(int idDisciplina, Pageable pageable) {
+        try {
+            return professorRepository.obterProfessoresPorDisciplina(idDisciplina, pageable)
+                    .map(ProfessorModel::toDto);
+        } catch (DataIntegrityException e) {
+            throw new DataIntegrityException("Erro ao obter professores.");
+        }
+    }
+
 }

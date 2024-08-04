@@ -4,12 +4,16 @@ import br.edu.ifs.apinewsigaa.exception.DataIntegrityException;
 import br.edu.ifs.apinewsigaa.exception.ObjectNotFoundException;
 import br.edu.ifs.apinewsigaa.model.DisciplinaModel;
 import br.edu.ifs.apinewsigaa.repository.DisciplinaRepository;
+import br.edu.ifs.apinewsigaa.rest.dto.AlunoDto;
 import br.edu.ifs.apinewsigaa.rest.dto.DisciplinaDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.Instant;
+import java.util.Date;
 
 @Service
 public class DisciplinaService {
@@ -60,6 +64,46 @@ public class DisciplinaService {
             disciplinaRepository.deleteById(id);
         }catch (DataIntegrityException e){
             throw new DataIntegrityException("Erro ao deletar uma disciplina.");
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public Page<DisciplinaDto> obterDisciplinasAtuaisPorAluno(int idAluno, Pageable pageable) {
+        try {
+            return disciplinaRepository.obterDisciplinasAtuaisPorAluno(idAluno, Date.from(Instant.now()), pageable)
+                    .map(DisciplinaModel::toDto);
+        } catch (DataIntegrityException e) {
+            throw new DataIntegrityException("Erro ao obter as disciplinas.");
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public Page<DisciplinaDto> obterHistoricoDeDisciplinasPorAluno(int idAluno, Pageable pageable) {
+        try {
+            return disciplinaRepository.obterHistoricoDeDisciplinasPorAluno(idAluno, pageable)
+                    .map(DisciplinaModel::toDto);
+        } catch (DataIntegrityException e) {
+            throw new DataIntegrityException("Erro ao obter as disciplinas.");
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public Page<DisciplinaDto> obterDisciplinasAtuaisPorProfessor(int idProfessor, Pageable pageable) {
+        try {
+            return disciplinaRepository.obterDisciplinasAtuaisPorProfessor(idProfessor, Date.from(Instant.now()), pageable)
+                    .map(DisciplinaModel::toDto);
+        } catch (DataIntegrityException e) {
+            throw new DataIntegrityException("Erro ao obter as disciplinas.");
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public Page<DisciplinaDto> obterHistoricoDeDisciplinasPorProfessor(int idProfessor, Pageable pageable) {
+        try {
+            return disciplinaRepository.obterHistoricoDeDisciplinasPorProfessor(idProfessor, pageable)
+                    .map(DisciplinaModel::toDto);
+        } catch (DataIntegrityException e) {
+            throw new DataIntegrityException("Erro ao obter as disciplinas.");
         }
     }
 

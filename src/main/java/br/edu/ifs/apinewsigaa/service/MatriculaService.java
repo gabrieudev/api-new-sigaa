@@ -63,4 +63,24 @@ public class MatriculaService {
         }
     }
 
+    @Transactional(readOnly = true)
+    public Page<MatriculaDto> obterPorIdAluno(int idAluno, Pageable pageable) {
+        try {
+            return matriculaRepository.findByIdAluno(idAluno, pageable)
+                    .map(MatriculaModel::toDto);
+        } catch (DataIntegrityException e) {
+            throw new DataIntegrityException("Erro ao obter matrículas.");
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public Page<MatriculaDto> obterPorIdTurma(int idTurma, Pageable pageable) {
+        try {
+            return matriculaRepository.findByIdTurma(idTurma, pageable)
+                    .map(MatriculaModel::toDto);
+        } catch (DataIntegrityException e) {
+            throw new DataIntegrityException("Erro ao obter matrículas.");
+        }
+    }
+
 }

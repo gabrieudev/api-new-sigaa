@@ -59,7 +59,27 @@ public class TurmaService {
         try {
             turmaRepository.deleteById(id);
         }catch (DataIntegrityException e){
-            throw new DataIntegrityException("Erro ao deletar uma disciplina.");
+            throw new DataIntegrityException("Erro ao deletar uma turma.");
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public Page<TurmaDto> obterPorIdDisciplina(int idDisciplina, Pageable pageable) {
+        try {
+            return turmaRepository.findByIdDisciplina(idDisciplina, pageable)
+                    .map(TurmaModel::toDto);
+        } catch (DataIntegrityException e) {
+            throw new DataIntegrityException("Erro ao obter turmas.");
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public Page<TurmaDto> obterPorIdProfessor(int idProfessor, Pageable pageable) {
+        try {
+            return turmaRepository.findByIdProfessor(idProfessor, pageable)
+                    .map(TurmaModel::toDto);
+        } catch (DataIntegrityException e) {
+            throw new DataIntegrityException("Erro ao obter turmas.");
         }
     }
 
