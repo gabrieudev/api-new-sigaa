@@ -18,14 +18,14 @@ public class DisciplinaService {
     private DisciplinaRepository disciplinaRepository;
 
     @Transactional(readOnly = true)
-    public DisciplinaDto ObterPorId(int id) {
+    public DisciplinaDto obterPorId(int id) {
         DisciplinaModel disciplinaModel = disciplinaRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("ERRO: Disciplina não encontrada! ID: " + id));
         return disciplinaModel.toDto();
     }
 
     @Transactional(readOnly = true)
-    public Page<DisciplinaDto> ObterTodas(Pageable pageable) {
+    public Page<DisciplinaDto> obterTodas(Pageable pageable) {
         return disciplinaRepository.findAll(pageable)
                 .map(DisciplinaModel::toDto);
     }

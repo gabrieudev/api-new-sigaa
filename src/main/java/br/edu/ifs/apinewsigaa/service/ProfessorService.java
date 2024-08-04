@@ -18,14 +18,14 @@ public class ProfessorService {
     private ProfessorRepository professorRepository;
 
     @Transactional(readOnly = true)
-    public ProfessorDto ObterPorMatricula(int matricula) {
+    public ProfessorDto obterPorMatricula(int matricula) {
         ProfessorModel professorModel = professorRepository.findByMatricula(matricula)
                 .orElseThrow(() -> new ObjectNotFoundException("ERRO: Matrícula não encontrada! Matrícula: " + matricula));
         return professorModel.toDto();
     }
 
     @Transactional(readOnly = true)
-    public Page<ProfessorDto> ObterTodos(Pageable pageable) {
+    public Page<ProfessorDto> obterTodos(Pageable pageable) {
         return professorRepository.findAll(pageable)
                 .map(ProfessorModel::toDto);
     }

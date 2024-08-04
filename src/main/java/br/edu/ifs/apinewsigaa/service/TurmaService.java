@@ -18,14 +18,14 @@ public class TurmaService {
     private TurmaRepository turmaRepository;
 
     @Transactional(readOnly = true)
-    public TurmaDto ObterPorId(int id) {
+    public TurmaDto obterPorId(int id) {
         TurmaModel turmaModel = turmaRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("ERRO: Turma não encontrada! ID: " + id));
         return turmaModel.toDto();
     }
 
     @Transactional(readOnly = true)
-    public Page<TurmaDto> ObterTodas(Pageable pageable) {
+    public Page<TurmaDto> obterTodas(Pageable pageable) {
         return turmaRepository.findAll(pageable)
                 .map(TurmaModel::toDto);
     }

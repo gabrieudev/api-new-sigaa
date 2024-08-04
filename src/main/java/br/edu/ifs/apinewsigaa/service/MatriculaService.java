@@ -18,14 +18,14 @@ public class MatriculaService {
     private MatriculaRepository matriculaRepository;
 
     @Transactional(readOnly = true)
-    public MatriculaDto ObterPorId(int id) {
+    public MatriculaDto obterPorId(int id) {
         MatriculaModel matriculaModel = matriculaRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("ERRO: Matrícula não encontrada! ID: " + id));
         return matriculaModel.toDto();
     }
 
     @Transactional(readOnly = true)
-    public Page<MatriculaDto> ObterTodas(Pageable pageable) {
+    public Page<MatriculaDto> obterTodas(Pageable pageable) {
         return matriculaRepository.findAll(pageable)
                 .map(MatriculaModel::toDto);
     }
