@@ -43,4 +43,20 @@ public class TurmaController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @GetMapping("/obter-por-professor/{id}")
+    public ResponseEntity<Page<TurmaDto>> obterPorProfessor(
+            @PathVariable("id") int id,
+            Pageable pageable
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(turmaService.obterPorIdProfessor(id, pageable));
+    }
+
+    @GetMapping("/obter-por-disciplina/{id}")
+    public ResponseEntity<Page<TurmaDto>> obterPorDisciplina(
+            @PathVariable("id") int id,
+            Pageable pageable
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(turmaService.obterPorIdDisciplina(id, pageable));
+    }
+
 }

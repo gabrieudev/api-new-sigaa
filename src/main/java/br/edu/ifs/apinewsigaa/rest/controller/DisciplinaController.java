@@ -43,4 +43,36 @@ public class DisciplinaController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @GetMapping("/obter-por-aluno/{id}")
+    public ResponseEntity<Page<DisciplinaDto>> obterDisciplinasAtuaisPorAluno(
+            @PathVariable("id") int id,
+            Pageable pageable
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(disciplinaService.obterDisciplinasAtuaisPorAluno(id, pageable));
+    }
+
+    @GetMapping("/historico-por-aluno/{id}")
+    public ResponseEntity<Page<DisciplinaDto>> obterHistoricoDeDisciplinasPorAluno(
+            @PathVariable("id") int id,
+            Pageable pageable
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(disciplinaService.obterHistoricoDeDisciplinasPorAluno(id, pageable));
+    }
+
+    @GetMapping("/historico-por-professor/{id}")
+    public ResponseEntity<Page<DisciplinaDto>> obterHistoricoDeDisciplinasPorProfessor(
+            @PathVariable("id") int id,
+            Pageable pageable
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(disciplinaService.obterHistoricoDeDisciplinasPorProfessor(id, pageable));
+    }
+
+    @GetMapping("/obter-por-professor/{id}")
+    public ResponseEntity<Page<DisciplinaDto>> obterDisciplinasAtuaisPorProfessor(
+            @PathVariable("id") int id,
+            Pageable pageable
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(disciplinaService.obterDisciplinasAtuaisPorProfessor(id, pageable));
+    }
+
 }

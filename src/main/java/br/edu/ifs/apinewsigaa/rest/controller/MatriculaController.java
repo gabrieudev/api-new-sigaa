@@ -43,4 +43,20 @@ public class MatriculaController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @GetMapping("/obter-por-aluno/{id}")
+    public ResponseEntity<Page<MatriculaDto>> obterPorAluno(
+            @PathVariable("id") int id,
+            Pageable pageable
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(matriculaService.obterPorIdAluno(id, pageable));
+    }
+
+    @GetMapping("/obter-por-turma/{id}")
+    public ResponseEntity<Page<MatriculaDto>> obterPorTurma(
+            @PathVariable("id") int id,
+            Pageable pageable
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(matriculaService.obterPorIdTurma(id, pageable));
+    }
+
 }

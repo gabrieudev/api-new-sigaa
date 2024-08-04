@@ -1,6 +1,5 @@
 package br.edu.ifs.apinewsigaa.rest.controller;
 
-import br.edu.ifs.apinewsigaa.rest.dto.DisciplinaDto;
 import br.edu.ifs.apinewsigaa.rest.dto.ProfessorDto;
 import br.edu.ifs.apinewsigaa.service.ProfessorService;
 import jakarta.validation.Valid;
@@ -42,6 +41,14 @@ public class ProfessorController {
     public ResponseEntity<Void> deletar(@PathVariable("id") int id) {
         professorService.deletar(id);
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @GetMapping("/obter-por-disciplina/{id}")
+    public ResponseEntity<Page<ProfessorDto>> obterProfessoresPorDisciplina(
+            @PathVariable("id") int id,
+            Pageable pageable
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(professorService.obterProfessoresPorDisciplina(id, pageable));
     }
 
 }
