@@ -19,6 +19,7 @@ public class TurmaDto {
     @NotNull(message = "Data de início obrigatória")
     private Date dataInicio;
 
+    @NotNull(message = "Data de fim obrigatória")
     private Date dataFim;
 
     @NotNull(message = "ID do(a) professor(a) é obrigatório")

@@ -19,7 +19,7 @@ public class ProfessorDto {
     @NotBlank(message = "Nome é obrigatório")
     private String nome;
 
-    @CPF
+    @CPF(message = "CPF inválido")
     @NotBlank(message = "CPF é obrigatório")
     private String cpf;
 
@@ -27,7 +27,7 @@ public class ProfessorDto {
     @Past(message = "Data de nascimento precisa estar no passado")
     private Date dataNascimento;
 
-    @Email
+    @Email(message = "E-mail inválido")
     @NotBlank(message = "Email é obrigatório")
     private String email;
 
