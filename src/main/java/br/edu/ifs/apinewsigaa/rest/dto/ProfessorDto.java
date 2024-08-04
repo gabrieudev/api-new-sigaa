@@ -14,8 +14,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProfessorDto {
-
-    private long id;
+    private int id;
 
     @NotBlank(message = "Nome é obrigatório")
     private String nome;

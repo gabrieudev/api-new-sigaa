@@ -14,7 +14,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TurmaDto {
-    private long id;
+    private int id;
 
     @NotNull(message = "Data de início obrigatória")
     private Date dataInicio;

@@ -12,7 +12,7 @@ import org.modelmapper.ModelMapper;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MatriculaDto {
-    private long id;
+    private int id;
 
     @NotNull(message = "ID da turma obrigatório")
     @Positive(message = "ID da turma precisa ser positivo")

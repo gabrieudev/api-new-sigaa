@@ -14,7 +14,7 @@ import org.modelmapper.ModelMapper;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DisciplinaDto {
-    private long id;
+    private int id;
 
     @NotBlank(message = "Nome é obrigatório")
     private String nome;

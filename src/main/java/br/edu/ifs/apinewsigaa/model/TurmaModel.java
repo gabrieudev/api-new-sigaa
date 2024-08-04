@@ -1,7 +1,10 @@
 package br.edu.ifs.apinewsigaa.model;
 
+import br.edu.ifs.apinewsigaa.rest.dto.ProfessorDto;
+import br.edu.ifs.apinewsigaa.rest.dto.TurmaDto;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.modelmapper.ModelMapper;
 
 import java.util.Date;
 
@@ -20,4 +23,9 @@ public class TurmaModel {
     private int idProfessor;
     @Column(name = "idDisciplina", nullable = false)
     private int idDisciplina;
+
+    public TurmaDto toDto() {
+        ModelMapper modelMapper = new ModelMapper();
+        return modelMapper.map(this, TurmaDto.class);
+    }
 }
