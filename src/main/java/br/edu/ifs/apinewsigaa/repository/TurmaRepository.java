@@ -11,4 +11,6 @@ public interface TurmaRepository extends JpaRepository<TurmaModel, Integer> {
     Page<TurmaModel> findByIdProfessor(int idProfessor, Pageable pageable);
 
     Page<TurmaModel> findByIdDisciplina(int idDisciplina, Pageable pageable);
+
+    boolean existsByIdProfessorAndIdDisciplina(int idProfessor, int idDisciplina);
 }

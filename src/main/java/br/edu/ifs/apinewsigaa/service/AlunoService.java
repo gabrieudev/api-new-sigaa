@@ -41,7 +41,7 @@ public class AlunoService {
     public AlunoDto salvar (AlunoDto novoAluno){
         try {
             return alunoRepository.save(novoAluno.toModel()).toDTO();
-        }catch (DataIntegrityException e){
+        }catch (DataIntegrityViolationException e){
             throw new DataIntegrityException("Erro ao criar um novo aluno.");
         }
     }
@@ -50,7 +50,7 @@ public class AlunoService {
     public AlunoDto atualizar (AlunoDto alunoExistente){
         try {
             return alunoRepository.save(alunoExistente.toModel()).toDTO();
-        }catch (DataIntegrityException e){
+        }catch (DataIntegrityViolationException e){
             throw new DataIntegrityException("Erro ao atualizar um aluno.");
         }
     }
@@ -59,7 +59,7 @@ public class AlunoService {
     public void deletar(int id){
         try {
             alunoRepository.deleteById(id);
-        }catch (DataIntegrityException e){
+        }catch (DataIntegrityViolationException e){
             throw new DataIntegrityException("Erro ao deletar um aluno.");
         }
     }
@@ -69,7 +69,7 @@ public class AlunoService {
         try {
             return alunoRepository.obterAlunosPorDisciplina(idDisciplina, pageable)
                     .map(AlunoModel::toDTO);
-        } catch (DataIntegrityException e){
+        } catch (DataIntegrityViolationException e){
             throw new DataIntegrityException("Erro ao obter os alunos.");
         }
     }
@@ -79,9 +79,13 @@ public class AlunoService {
         try {
             return alunoRepository.obterAlunosLecionadosAtualmentePorProfessor(idProfessor, Date.from(Instant.now()), pageable)
                     .map(AlunoModel::toDTO);
-        } catch (DataIntegrityException e){
+        } catch (DataIntegrityViolationException e){
             throw new DataIntegrityException("Erro ao obter os alunos.");
         }
+    }
+
+    public boolean existsById(int id) {
+        return alunoRepository.existsById(id);
     }
 
 }

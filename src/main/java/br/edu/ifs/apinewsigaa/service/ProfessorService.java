@@ -6,6 +6,7 @@ import br.edu.ifs.apinewsigaa.model.ProfessorModel;
 import br.edu.ifs.apinewsigaa.repository.ProfessorRepository;
 import br.edu.ifs.apinewsigaa.rest.dto.ProfessorDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -34,7 +35,7 @@ public class ProfessorService {
     public ProfessorDto salvar (ProfessorDto professorDto){
         try {
             return professorRepository.save(professorDto.toModel()).toDto();
-        }catch (DataIntegrityException e){
+        }catch (DataIntegrityViolationException e){
             throw new DataIntegrityException("Erro ao criar um novo professor.");
         }
     }
@@ -46,7 +47,7 @@ public class ProfessorService {
         }
         try {
             return professorRepository.save(professorDto.toModel()).toDto();
-        }catch (DataIntegrityException e){
+        }catch (DataIntegrityViolationException e){
             throw new DataIntegrityException("Erro ao atualizar um professor.");
         }
     }
@@ -58,7 +59,7 @@ public class ProfessorService {
         }
         try {
             professorRepository.deleteById(id);
-        }catch (DataIntegrityException e){
+        }catch (DataIntegrityViolationException e){
             throw new DataIntegrityException("Erro ao deletar um professor.");
         }
     }
@@ -68,9 +69,13 @@ public class ProfessorService {
         try {
             return professorRepository.obterProfessoresPorDisciplina(idDisciplina, pageable)
                     .map(ProfessorModel::toDto);
-        } catch (DataIntegrityException e) {
+        } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityException("Erro ao obter professores.");
         }
+    }
+
+    public boolean existsById(int id) {
+        return professorRepository.existsById(id);
     }
 
 }

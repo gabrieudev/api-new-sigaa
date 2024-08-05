@@ -7,6 +7,7 @@ import br.edu.ifs.apinewsigaa.repository.DisciplinaRepository;
 import br.edu.ifs.apinewsigaa.rest.dto.AlunoDto;
 import br.edu.ifs.apinewsigaa.rest.dto.DisciplinaDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,7 @@ public class DisciplinaService {
     public DisciplinaDto salvar (DisciplinaDto disciplinaDto){
         try {
             return disciplinaRepository.save(disciplinaDto.toModel()).toDto();
-        }catch (DataIntegrityException e){
+        }catch (DataIntegrityViolationException e){
             throw new DataIntegrityException("Erro ao criar uma nova disciplina.");
         }
     }
@@ -50,7 +51,7 @@ public class DisciplinaService {
         }
         try {
             return disciplinaRepository.save(disciplinaDto.toModel()).toDto();
-        }catch (DataIntegrityException e){
+        }catch (DataIntegrityViolationException e){
             throw new DataIntegrityException("Erro ao atualizar uma disciplina.");
         }
     }
@@ -62,7 +63,7 @@ public class DisciplinaService {
         }
         try {
             disciplinaRepository.deleteById(id);
-        }catch (DataIntegrityException e){
+        }catch (DataIntegrityViolationException e){
             throw new DataIntegrityException("Erro ao deletar uma disciplina.");
         }
     }
@@ -72,7 +73,7 @@ public class DisciplinaService {
         try {
             return disciplinaRepository.obterDisciplinasAtuaisPorAluno(idAluno, Date.from(Instant.now()), pageable)
                     .map(DisciplinaModel::toDto);
-        } catch (DataIntegrityException e) {
+        } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityException("Erro ao obter as disciplinas.");
         }
     }
@@ -82,7 +83,7 @@ public class DisciplinaService {
         try {
             return disciplinaRepository.obterHistoricoDeDisciplinasPorAluno(idAluno, pageable)
                     .map(DisciplinaModel::toDto);
-        } catch (DataIntegrityException e) {
+        } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityException("Erro ao obter as disciplinas.");
         }
     }
@@ -92,7 +93,7 @@ public class DisciplinaService {
         try {
             return disciplinaRepository.obterDisciplinasAtuaisPorProfessor(idProfessor, Date.from(Instant.now()), pageable)
                     .map(DisciplinaModel::toDto);
-        } catch (DataIntegrityException e) {
+        } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityException("Erro ao obter as disciplinas.");
         }
     }
@@ -102,9 +103,13 @@ public class DisciplinaService {
         try {
             return disciplinaRepository.obterHistoricoDeDisciplinasPorProfessor(idProfessor, pageable)
                     .map(DisciplinaModel::toDto);
-        } catch (DataIntegrityException e) {
+        } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityException("Erro ao obter as disciplinas.");
         }
+    }
+
+    public boolean existsById(int id) {
+        return disciplinaRepository.existsById(id);
     }
 
 }

@@ -11,4 +11,6 @@ public interface MatriculaRepository extends JpaRepository<MatriculaModel, Integ
     Page<MatriculaModel> findByIdAluno(int idAluno, Pageable pageable);
 
     Page<MatriculaModel> findByIdTurma(int idTurma, Pageable pageable);
+
+    boolean existsByIdAlunoAndIdTurma(int idAluno, int idTurma);
 }

@@ -6,6 +6,7 @@ import br.edu.ifs.apinewsigaa.model.TurmaModel;
 import br.edu.ifs.apinewsigaa.repository.TurmaRepository;
 import br.edu.ifs.apinewsigaa.rest.dto.TurmaDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,12 @@ public class TurmaService {
 
     @Autowired
     private TurmaRepository turmaRepository;
+
+    @Autowired
+    private ProfessorService professorService;
+
+    @Autowired
+    private DisciplinaService disciplinaService;
 
     @Transactional(readOnly = true)
     public TurmaDto obterPorId(int id) {
@@ -32,9 +39,18 @@ public class TurmaService {
 
     @Transactional
     public TurmaDto salvar (TurmaDto turmaDto){
+        if (turmaRepository.existsByIdProfessorAndIdDisciplina(turmaDto.getIdProfessor(), turmaDto.getIdDisciplina())) {
+            throw new DataIntegrityException("Já existe uma turma os IDs fornecidos.");
+        }
+        if (!professorService.existsById(turmaDto.getIdProfessor())) {
+            throw new DataIntegrityException("Erro: ID do professor não encontrado!");
+        }
+        if (!disciplinaService.existsById(turmaDto.getIdDisciplina())) {
+            throw new DataIntegrityException("Erro: ID da disciplina não encontrado!");
+        }
         try {
             return turmaRepository.save(turmaDto.toModel()).toDto();
-        }catch (DataIntegrityException e){
+        }catch (DataIntegrityViolationException e){
             throw new DataIntegrityException("Erro ao criar uma nova turma.");
         }
     }
@@ -46,7 +62,7 @@ public class TurmaService {
         }
         try {
             return turmaRepository.save(turmaDto.toModel()).toDto();
-        }catch (DataIntegrityException e){
+        }catch (DataIntegrityViolationException e){
             throw new DataIntegrityException("Erro ao atualizar uma turma.");
         }
     }
@@ -58,7 +74,7 @@ public class TurmaService {
         }
         try {
             turmaRepository.deleteById(id);
-        }catch (DataIntegrityException e){
+        }catch (DataIntegrityViolationException e){
             throw new DataIntegrityException("Erro ao deletar uma turma.");
         }
     }
@@ -68,7 +84,7 @@ public class TurmaService {
         try {
             return turmaRepository.findByIdDisciplina(idDisciplina, pageable)
                     .map(TurmaModel::toDto);
-        } catch (DataIntegrityException e) {
+        } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityException("Erro ao obter turmas.");
         }
     }
@@ -78,9 +94,13 @@ public class TurmaService {
         try {
             return turmaRepository.findByIdProfessor(idProfessor, pageable)
                     .map(TurmaModel::toDto);
-        } catch (DataIntegrityException e) {
+        } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityException("Erro ao obter turmas.");
         }
+    }
+
+    public boolean existsById(int id) {
+        return turmaRepository.existsById(id);
     }
 
 }

@@ -6,6 +6,7 @@ import br.edu.ifs.apinewsigaa.model.MatriculaModel;
 import br.edu.ifs.apinewsigaa.repository.MatriculaRepository;
 import br.edu.ifs.apinewsigaa.rest.dto.MatriculaDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,12 @@ public class MatriculaService {
 
     @Autowired
     private MatriculaRepository matriculaRepository;
+
+    @Autowired
+    private AlunoService alunoService;
+
+    @Autowired
+    private TurmaService turmaService;
 
     @Transactional(readOnly = true)
     public MatriculaDto obterPorId(int id) {
@@ -32,9 +39,18 @@ public class MatriculaService {
 
     @Transactional
     public MatriculaDto salvar (MatriculaDto matriculaDto){
+        if (matriculaRepository.existsByIdAlunoAndIdTurma(matriculaDto.getIdAluno(), matriculaDto.getIdTurma())) {
+            throw new DataIntegrityException("Aluno já está matriculado nesta turma.");
+        }
+        if (!alunoService.existsById(matriculaDto.getIdAluno())) {
+            throw new DataIntegrityException("Erro: ID do aluno não encontrado!");
+        }
+        if (!turmaService.existsById(matriculaDto.getIdTurma())) {
+            throw new DataIntegrityException("Erro: ID da turma não encontrado!");
+        }
         try {
             return matriculaRepository.save(matriculaDto.toModel()).toDto();
-        }catch (DataIntegrityException e){
+        }catch (DataIntegrityViolationException e){
             throw new DataIntegrityException("Erro ao criar uma nova matrícula.");
         }
     }
@@ -46,7 +62,7 @@ public class MatriculaService {
         }
         try {
             return matriculaRepository.save(matriculaDto.toModel()).toDto();
-        }catch (DataIntegrityException e){
+        }catch (DataIntegrityViolationException e){
             throw new DataIntegrityException("Erro ao atualizar uma matrícula.");
         }
     }
@@ -58,7 +74,7 @@ public class MatriculaService {
         }
         try {
             matriculaRepository.deleteById(id);
-        }catch (DataIntegrityException e){
+        }catch (DataIntegrityViolationException e){
             throw new DataIntegrityException("Erro ao deletar uma matrícula.");
         }
     }
@@ -68,7 +84,7 @@ public class MatriculaService {
         try {
             return matriculaRepository.findByIdAluno(idAluno, pageable)
                     .map(MatriculaModel::toDto);
-        } catch (DataIntegrityException e) {
+        } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityException("Erro ao obter matrículas.");
         }
     }
@@ -78,7 +94,7 @@ public class MatriculaService {
         try {
             return matriculaRepository.findByIdTurma(idTurma, pageable)
                     .map(MatriculaModel::toDto);
-        } catch (DataIntegrityException e) {
+        } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityException("Erro ao obter matrículas.");
         }
     }
