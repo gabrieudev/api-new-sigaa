@@ -32,6 +32,7 @@ public class ProfessorDto {
     private String email;
 
     @NotBlank(message = "Celular é obrigatório")
+    @Size(min = 14, max = 14, message = "Celular inválido")
     private String celular;
 
     @NotNull(message = "Matrícula é obrigatória")

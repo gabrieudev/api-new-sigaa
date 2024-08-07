@@ -32,7 +32,7 @@ public class AlunoDto {
     private Date dataNascimento;
 
     @NotBlank(message = "Celular obrigatório")
-    @Size(max = 14, message = "Celular inválido")
+    @Size(min = 14, max = 14, message = "Celular inválido")
     private String celular;
 
     private String apelido;
